@@ -1,17 +1,29 @@
 import pygame
 from pygame.math import Vector2 as vec
+import pygame.camera
 
 # pygame setup
 pygame.init()
-screen = pygame.display.set_mode((720, 720))
+pygame.camera.init()
+cam = pygame.camera.Camera(pygame.camera.list_cameras()[0], (1080, 1080), "RGB")
+cam.start()
+
+screen = pygame.display.set_mode((1080, 1080))
 clock = pygame.time.Clock()
 running = True
 
-resFact = 10
+resFact = 20
 imgMat = [[],[]]
 textSize = resFact
 
 text = pygame.font.Font("Courier_Prime/CourierPrime-Regular.ttf", textSize)
+
+def getChar(pix):
+    avg = (pix[0]+pix[1]+pix[2])/3
+    dens = 'N@#W$9876543210?!abc;:+=-,._ '
+    return dens[round((1-avg/255)*(len(dens)-1))]
+
+# print(pygame.camera.list_cameras())
 
 while running:
     # poll for events
@@ -27,19 +39,28 @@ while running:
     screen.fill("black")
 
     # RENDER
-    snake = pygame.image.load("./pygame_logo.png")
-    #screen.blit(pygame.transform.scale(snake, (snake.get_width()//2, snake.get_height()//2)), (0,0))
-    surf = pygame.Surface((720,720))
-    surf.blit(pygame.transform.scale(snake, (snake.get_width()//resFact, snake.get_height()//resFact)), (0,0))
+    canv = pygame.image.load("./pygame_logo.png")
+    #screen.blit(pygame.transform.scale(canv, (canv.get_width()//2, canv.get_height()//2)), (0,0))
+    surf = pygame.Surface((screen.get_width()//resFact, screen.get_height()//resFact))
+    surf.blit(pygame.transform.scale(canv, (screen.get_width()//resFact, screen.get_height()//resFact)), (0,0))
+    screen.blit(pygame.transform.scale(pygame.transform.scale(canv, (screen.get_width()//resFact, screen.get_height()//resFact)), (screen.get_width(), screen.get_height())), (0,0))
+    cam.get_image(screen)
     imgMat = pygame.surfarray.pixels3d(surf)
     # print(imgMat[10][10])
+    # for i in range(len(imgMat)):
+    #     for j in range(len(imgMat[i])):
+    #         # for k in range(3):
+    #         #     if imgMat[i][j][k] == 0:
+    #         #         imgMat[i][j][k] = 100
+    #         imgMat[i][j][0] = 200
+    # print(imgMat[10][10])
+    # pygame.surfarray.blit_array(surf,imgMat)
+
+    surf2 = pygame.Surface((screen.get_width(), screen.get_height()))
     for i in range(len(imgMat)):
         for j in range(len(imgMat[i])):
-            for k in range(3):
-                if imgMat[i][j][k] == 0:
-                    imgMat[i][j][k] = 255
-    # print(imgMat[10][10])
-    pygame.surfarray.blit_array(screen,imgMat)
+            surf2.blit(text.render(getChar(imgMat[i][j]),True, (255, 255, 255)), (resFact*i, resFact*j))
+    # screen.blit(surf2, (0, 0))
 
 
     # flip() the display to put your work on screen
