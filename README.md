@@ -43,7 +43,7 @@ For Hardware:
 ### Implementation
 For Software:
 # Installation
-Python should be installed. To install pygame and opencv modules, type the following command in the terminal >
+Python should be installed. To install pygame and opencv modules, type the following command in the terminal <br>
 `pip install pygame opencv-python`
 
 # Run
