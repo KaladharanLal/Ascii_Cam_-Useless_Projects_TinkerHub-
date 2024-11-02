@@ -56,7 +56,7 @@ while running:
 
     # RENDER
     camSurf = pygame.Surface((screen.get_width()//resFact, screen.get_height()//resFact))
-    camSurf.blit(pygame.transform.scale(cam.get_image(), (screen.get_width()//resFact, screen.get_height()//resFact)), (0,0))
+    camSurf.blit(pygame.transform.scale(pygame.transform.flip(cam.get_image(), 1, 0), (screen.get_width()//resFact, screen.get_height()//resFact)), (0,0))
     # screen.blit(camSurf, (0,0))
     imgMat = pygame.surfarray.pixels3d(camSurf)
 
