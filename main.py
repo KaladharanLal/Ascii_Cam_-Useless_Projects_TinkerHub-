@@ -3,7 +3,7 @@ import pygame.camera
 from docutils.nodes import image
 from pygame import Surface
 
-windWidth = 720
+windWidth = 1080
 windHeight = 720
 
 # pygame setup
@@ -30,8 +30,10 @@ imgMat = [[],[]]
 
 img = False
 file_image = pygame.image.load('pygame_logo.png')
+help = False
 
 text = pygame.font.Font("Courier_Prime/CourierPrime-Regular.ttf", round(resFact))
+desc = pygame.font.Font("Courier_Prime/CourierPrime-Regular.ttf", 20)
 
 def getChar(pix):
     avg = (pix[0]+pix[1]+pix[2])/3
@@ -99,6 +101,11 @@ while running:
                 incCont = False
             if event.key == pygame.K_ESCAPE:
                 img = False
+                help = False
+            if event.key == pygame.K_h:
+                help = not help
+            if event.key == pygame.K_SPACE:
+                help = not help
         if event.type == pygame.DROPFILE:
             # Try to open the file if it's an image
             filetype = event.file[-3:]
@@ -140,9 +147,17 @@ while running:
     text = pygame.font.Font("Courier_Prime/CourierPrime-Regular.ttf", round(resFact))
     for i in range(len(imgMat)):
         for j in range(len(imgMat[i])):
-            surf.blit(text.render(getChar2(imgMat[i][j]),True, (255, 255, 255)), (round(resFact)*i, round(resFact)*j))
+            surf.blit(text.render(getChar2(imgMat[i][j]),True, "white"), (round(resFact)*i, round(resFact)*j))
     screen.blit(surf, (0, 0))
 
+    if help:
+        pygame.draw.rect(screen, "white", (screen.get_width()//2-200,screen.get_height()//2-200, 400, 400))
+        screen.blit(desc.render("Keyboard Shortcuts", True, "black"), (screen.get_width()//2-100,screen.get_height()//2-150))
+        screen.blit(desc.render("Q - Quit", True, "black"), (screen.get_width()//2-180,screen.get_height()//2-100))
+        screen.blit(desc.render("left and right arrow - Contrast", True, "black"), (screen.get_width()//2-180,screen.get_height()//2-50))
+        screen.blit(desc.render("up and down arrow - font size", True, "black"), (screen.get_width()//2-180,screen.get_height()//2))
+        screen.blit(desc.render("drag and drop to insert image", True, "black"), (screen.get_width()//2-180,screen.get_height()//2+50))
+        screen.blit(desc.render("Esc - To exit image", True, "black"), (screen.get_width()//2-180,screen.get_height()//2+100))
 
     # flip() the display to put your work on screen
     pygame.display.flip()
