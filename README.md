@@ -1,31 +1,37 @@
 <img width="1280" alt="readme-banner" src="https://github.com/user-attachments/assets/35332e92-44cb-425b-9dff-27bcf1023c6c">
 
-# [Project Name] 🎯
+# ASCII Cam
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: Yukti
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Team Lead: <a href="https://github.com/KaladharanLal">Kaladharan Lal</a> - NSS College of Engineeering, Palakkad
+- Member 2: <a href="https://github.com/Nirmalsutar">Nirmal Sutar</a> - NSS College of Engineeering, Palakkad
 
 ### Project Description
-[2-3 lines about what your project does]
+This project is just turning an ordinary image into a bit interesting ASCII character representation. Its a good design, or just a fun to see the world in a different way.
+eg:-
+```
+TTTTT  i         k
+  T       n n n  k k  e e e  r rr
+  T    i  n    n kk  e e e e r
+  T    i  n    n k k  e e e  r
+```
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+Boring images
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+Make it interesting
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
+- Python
+- Pygame
 - [Libraries used]
 - [Tools used]
 
@@ -37,10 +43,12 @@ For Hardware:
 ### Implementation
 For Software:
 # Installation
-[commands]
+python should be installed. To install pygame module >
+`pip install pygame`
 
 # Run
-[commands]
+Run the main.py file.
+For running from terminal, open the terminal in the project directory and run `python main.py`(for Windows) or `python3 main.py`(for MacOS)
 
 ### Project Documentation
 For Software:
