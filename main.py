@@ -1,18 +1,16 @@
 import pygame
-from IPython.utils.coloransi import value
-from pygame.math import Vector2 as vec
 import pygame.camera
 
-defWidth = 1920
-defHeight = 1080
+windWidth = 720
+windHeight = 720
 
 # pygame setup
 pygame.init()
 pygame.camera.init()
-cam = pygame.camera.Camera(pygame.camera.list_cameras()[0], (defWidth, defHeight), "RGB")
+cam = pygame.camera.Camera(pygame.camera.list_cameras()[0], (windWidth, windHeight), "RGB")
 cam.start()
 
-screen = pygame.display.set_mode((defWidth, defHeight))
+screen = pygame.display.set_mode((windWidth, windHeight), pygame.RESIZABLE)
 clock = pygame.time.Clock()
 running = True
 
@@ -61,6 +59,14 @@ def getChar2(pix):
 # print(pygame.camera.list_cameras())
 
 while running:
+    # window sizing
+    if screen.get_width() != windWidth or screen.get_height() != windHeight:
+        windWidth = screen.get_width()
+        windHeight = screen.get_height()
+        cam.stop()
+        cam = pygame.camera.Camera(pygame.camera.list_cameras()[0], (windWidth, windHeight), "RGB")
+        cam.start()
+
     # poll for events
     # pygame.QUIT event means the user clicked X to close your window
     for event in pygame.event.get():
