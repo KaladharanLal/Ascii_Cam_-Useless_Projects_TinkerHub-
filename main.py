@@ -5,14 +5,14 @@ import pygame.camera
 # pygame setup
 pygame.init()
 pygame.camera.init()
-cam = pygame.camera.Camera(pygame.camera.list_cameras()[0], (1080, 1080), "RGB")
+cam = pygame.camera.Camera(pygame.camera.list_cameras()[0], (1000, 800), "RGB")
 cam.start()
 
-screen = pygame.display.set_mode((1080, 1080))
+screen = pygame.display.set_mode((1000, 800))
 clock = pygame.time.Clock()
 running = True
 
-resFact = 20
+resFact = 10
 imgMat = [[],[]]
 textSize = resFact
 
@@ -43,9 +43,12 @@ while running:
     #screen.blit(pygame.transform.scale(canv, (canv.get_width()//2, canv.get_height()//2)), (0,0))
     surf = pygame.Surface((screen.get_width()//resFact, screen.get_height()//resFact))
     surf.blit(pygame.transform.scale(canv, (screen.get_width()//resFact, screen.get_height()//resFact)), (0,0))
-    screen.blit(pygame.transform.scale(pygame.transform.scale(canv, (screen.get_width()//resFact, screen.get_height()//resFact)), (screen.get_width(), screen.get_height())), (0,0))
-    cam.get_image(screen)
-    imgMat = pygame.surfarray.pixels3d(surf)
+    # screen.blit(pygame.transform.scale(pygame.transform.scale(canv, (screen.get_width()//resFact, screen.get_height()//resFact)), (screen.get_width(), screen.get_height())), (0,0))
+
+    camSurf = pygame.Surface((screen.get_width()//resFact, screen.get_height()//resFact))
+    camSurf.blit(pygame.transform.scale(cam.get_image(), (screen.get_width()//resFact, screen.get_height()//resFact)), (0,0))
+    screen.blit(camSurf, (0,0))
+    imgMat = pygame.surfarray.pixels3d(camSurf)
     # print(imgMat[10][10])
     # for i in range(len(imgMat)):
     #     for j in range(len(imgMat[i])):
@@ -60,7 +63,7 @@ while running:
     for i in range(len(imgMat)):
         for j in range(len(imgMat[i])):
             surf2.blit(text.render(getChar(imgMat[i][j]),True, (255, 255, 255)), (resFact*i, resFact*j))
-    # screen.blit(surf2, (0, 0))
+    screen.blit(surf2, (0, 0))
 
 
     # flip() the display to put your work on screen
