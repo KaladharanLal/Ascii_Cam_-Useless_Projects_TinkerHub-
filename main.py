@@ -1,22 +1,34 @@
 import pygame
+from IPython.utils.coloransi import value
 from pygame.math import Vector2 as vec
 import pygame.camera
+
+defWidth = 1920
+defHeight = 1080
 
 # pygame setup
 pygame.init()
 pygame.camera.init()
-cam = pygame.camera.Camera(pygame.camera.list_cameras()[0], (1000, 800), "RGB")
+cam = pygame.camera.Camera(pygame.camera.list_cameras()[0], (defWidth, defHeight), "RGB")
 cam.start()
 
-screen = pygame.display.set_mode((1000, 800))
+screen = pygame.display.set_mode((defWidth, defHeight))
 clock = pygame.time.Clock()
 running = True
 
-resFact = 10
-imgMat = [[],[]]
-textSize = resFact
+resFact = 12.0 # 5 to 30
+resChangeSense = .1
+incrRes = False
+decRes = False
 
-text = pygame.font.Font("Courier_Prime/CourierPrime-Regular.ttf", textSize)
+contrast = 0
+contChangeSense = 4
+incCont = False
+decCont = False
+
+imgMat = [[],[]]
+
+text = pygame.font.Font("Courier_Prime/CourierPrime-Regular.ttf", round(resFact))
 
 def getChar(pix):
     avg = (pix[0]+pix[1]+pix[2])/3
@@ -25,18 +37,25 @@ def getChar(pix):
 
 def getChar2(pix):
     ch = ""
+    spc = ""
+    for _ in range(round(contrast)):
+        spc += " "
     dens = 'N@#W$9876543210?!abc;:+=-,._ '
-    densR = 'WEBOCIwxzuiL(|:.'
-    densG = 'GHSQUJsgqpj[)/;,'
-    densB = 'MKFDYVabdko{]!=`'
+    densR = 'WEBOCIwxzuiL(|:. '
+    densG = 'GHSQUJsgqpj[)/;, '
+    densB = 'MKFDYVabdko{]!=` '
     if pix[0]>pix[1] and pix[0]>pix[2]:
-        ch = densR[round((1-pix[0]/255)*(len(densR)-1))]
+        s = densR+spc
+        ch = s[round((1-pix[0]/255)*(len(s)-1))]
     elif pix[1]>pix[0] and pix[1]>pix[2]:
-        ch = densG[round((1-pix[0]/255)*(len(densG)-1))]
+        s = densG+spc
+        ch = s[round((1-pix[0]/255)*(len(s)-1))]
     elif pix[2]>pix[1] and pix[2]>pix[1]:
-        ch = densB[round((1-pix[0]/255)*(len(densB)-1))]
+        s = densB+spc
+        ch = s[round((1-pix[0]/255)*(len(s)-1))]
     else:
-        ch = dens[round((1-pix[0]/255)*(len(dens)-1))]
+        s = dens+spc
+        ch = s[round((1-pix[0]/255)*(len(s)-1))]
     return ch
 
 # print(pygame.camera.list_cameras())
@@ -50,20 +69,47 @@ while running:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_q:
                 running = False
+            if event.key == pygame.K_UP:
+                incrRes = True
+            if event.key == pygame.K_DOWN:
+                decRes = True
+            if event.key == pygame.K_LEFT:
+                decCont = True
+            if event.key == pygame.K_RIGHT:
+                incCont = True
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_UP:
+                incrRes = False
+            if event.key == pygame.K_DOWN:
+                decRes = False
+            if event.key == pygame.K_LEFT:
+                decCont = False
+            if event.key == pygame.K_RIGHT:
+                incCont = False
+    if incrRes and resFact<=30:
+        resFact += resChangeSense
+    if decRes and resFact>=5:
+        resFact -= resChangeSense
+    if incCont and contrast<=50:
+        contrast += resChangeSense
+    if decCont and contrast>=1:
+        contrast -= resChangeSense
 
     # fill the screen with a color to wipe away anything from last frame
     screen.fill("black")
 
     # RENDER
-    camSurf = pygame.Surface((screen.get_width()//resFact, screen.get_height()//resFact))
-    camSurf.blit(pygame.transform.scale(cam.get_image(), (screen.get_width()//resFact, screen.get_height()//resFact)), (0,0))
+    camSurf = pygame.Surface((screen.get_width()//round(resFact), screen.get_height()//round(resFact)))
+    camSurf.blit(pygame.transform.scale(pygame.transform.flip(cam.get_image(), 1, 0), (screen.get_width()//round(resFact), screen.get_height()//round(resFact))), (0,0))
     # screen.blit(camSurf, (0,0))
     imgMat = pygame.surfarray.pixels3d(camSurf)
 
     surf2 = pygame.Surface((screen.get_width(), screen.get_height()))
+
+    text = pygame.font.Font("Courier_Prime/CourierPrime-Regular.ttf", round(resFact))
     for i in range(len(imgMat)):
         for j in range(len(imgMat[i])):
-            surf2.blit(text.render(getChar2(imgMat[i][j]),True, (255, 255, 255)), (resFact*i, resFact*j))
+            surf2.blit(text.render(getChar2(imgMat[i][j]),True, (255, 255, 255)), (round(resFact)*i, round(resFact)*j))
     screen.blit(surf2, (0, 0))
 
 
