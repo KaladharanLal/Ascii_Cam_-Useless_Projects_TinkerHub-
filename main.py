@@ -1,5 +1,7 @@
 import pygame
 import pygame.camera
+from docutils.nodes import image
+from pygame import Surface
 
 windWidth = 720
 windHeight = 720
@@ -25,6 +27,9 @@ incCont = False
 decCont = False
 
 imgMat = [[],[]]
+
+img = False
+file_image = pygame.image.load('pygame_logo.png')
 
 text = pygame.font.Font("Courier_Prime/CourierPrime-Regular.ttf", round(resFact))
 
@@ -92,6 +97,17 @@ while running:
                 decCont = False
             if event.key == pygame.K_RIGHT:
                 incCont = False
+            if event.key == pygame.K_ESCAPE:
+                img = False
+        if event.type == pygame.DROPFILE:
+            # Try to open the file if it's an image
+            filetype = event.file[-3:]
+            if filetype in ["png", "bmp", "jpg"]:
+                file_image = pygame.image.load(event.file).convert()
+                # file_image.set_alpha(127)
+                file_image_rect = file_image.get_rect()
+                file_image_rect.center = screen.get_rect().center
+                img = True
     if incrRes and resFact<=30:
         resFact += resChangeSense
     if decRes and resFact>=5:
@@ -108,15 +124,24 @@ while running:
     camSurf = pygame.Surface((screen.get_width()//round(resFact), screen.get_height()//round(resFact)))
     camSurf.blit(pygame.transform.scale(pygame.transform.flip(cam.get_image(), 1, 0), (screen.get_width()//round(resFact), screen.get_height()//round(resFact))), (0,0))
     # screen.blit(camSurf, (0,0))
-    imgMat = pygame.surfarray.pixels3d(camSurf)
 
-    surf2 = pygame.Surface((screen.get_width(), screen.get_height()))
+    imgSurf = pygame.Surface((screen.get_width()//round(resFact), screen.get_height()//round(resFact)))
+    file_image_surf = Surface(file_image.get_size())
+    file_image_surf.blit(file_image, (0,0))
+    imgSurf.blit(pygame.transform.scale(file_image_surf, (screen.get_width()//round(resFact), screen.get_height()//round(resFact))), (0,0))
+
+    surf = pygame.Surface((screen.get_width(), screen.get_height()))
+
+    if img:
+        imgMat = pygame.surfarray.pixels3d(imgSurf)
+    else:
+        imgMat = pygame.surfarray.pixels3d(camSurf)
 
     text = pygame.font.Font("Courier_Prime/CourierPrime-Regular.ttf", round(resFact))
     for i in range(len(imgMat)):
         for j in range(len(imgMat[i])):
-            surf2.blit(text.render(getChar2(imgMat[i][j]),True, (255, 255, 255)), (round(resFact)*i, round(resFact)*j))
-    screen.blit(surf2, (0, 0))
+            surf.blit(text.render(getChar2(imgMat[i][j]),True, (255, 255, 255)), (round(resFact)*i, round(resFact)*j))
+    screen.blit(surf, (0, 0))
 
 
     # flip() the display to put your work on screen
