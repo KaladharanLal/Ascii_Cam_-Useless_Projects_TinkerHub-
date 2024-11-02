@@ -25,20 +25,17 @@ TTTTT  i         k
 Boring images
 
 ### The Solution (that nobody asked for)
-Make it interesting
+Make it interesting using ASCII
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
 - Python
-- Pygame
-- [Libraries used]
-- [Tools used]
+- Pygame module
 
 For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
+- Arduino UNO (Plan cancelled)
+- POT (Plan cancelled)
 
 ### Implementation
 For Software:
@@ -52,52 +49,34 @@ For running from terminal, open the terminal in the project directory and run `p
 
 ### Project Documentation
 For Software:
+Its a simple app that lets you see your self in ASCII representation. Not only images from camera, you could also open image files, simply draging and dropping. You could alter the size of each charaters of the image by up and down arrow keys. You could play with contrast with left and right arrows. <br>
+Download/Clone the project file and experience the world with new eyes. Don't for get to install pygame and opencv modules. I found that it takes a minute or so for the camera to start up. Thus after running the program, patiently wait for a minute, even if any error pops up.
 
 # Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
+<img alt="screenshort1" src="Screenshorts\img1.jpg">Program window during initial stages of development.<br>
+Trying to render the image of the pygame snake
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
+<img alt="screenshort1" src="Screenshorts\Screenshot (81).png">Program window during final stages of development.<br>
+Was able to setup live camera feed visuals
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
+<img alt="screenshort1" src="Screenshorts\Screenshot (84).png">Got everything ready.<br>
+The last screenshort of development
 
-# Diagrams
-![Workflow](Add your workflow/architecture diagram here)
-*Add caption explaining your workflow*
-
-For Hardware:
-
-# Schematic & Circuit
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
-
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
+(Actually we also had a plan to include the hardware component mentioned below. We were planning of controlling size and contrast of the image through POT via Arduino. Unfortunately Arduino wasn't communicating with the python program very well. Thus we diched the plan to use Arduino and implemented everything software alone)
 
 # Build Photos
-![Components](Add photo of your components here)
-*List out all components shown*
-
-![Build](Add photos of build process here)
-*Explain the build steps*
-
-![Final](Add photo of final product here)
-*Explain the final build*
+<img alt="screenshort1" src="Screenshorts\hardware.jpg">
+(Plan Cancelled)
 
 ### Project Demo
 # Video
+Here is a brief over veiw through the app
 [Add your demo video link here]
-*Explain what the video demonstrates*
 
-# Additional Demos
-[Add any extra demo materials/links]
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
+- Kaladharan Lal: Programming
+- [Name 2]: Wiring, minor programming
 
 ---
 Made with ❤️ at TinkerHub Useless Projects 
