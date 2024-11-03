@@ -21,6 +21,8 @@ TTTTT  i         k
   T    i  n    n k k  e e e  r
 ```
 
+I would like to keep this project open-source. So feel free to fork and further tinker your ideas. I am sure you could have more creative ideas on it. 
+
 ### The Problem (that doesn't exist)
 Boring images
 
